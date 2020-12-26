@@ -9,8 +9,8 @@ func main() {
 	var s server.Broker
 	c := new(client.Consumer)
 	c.Funs = map[string]func(*[]byte) ([]byte, error){
-		"say": func(i *[]byte) ([]byte, error) {
-			s := []byte("world")
+		"s": func(i *[]byte) ([]byte, error) {
+			s := []byte("")
 			return s, nil
 		},
 	}

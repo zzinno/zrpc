@@ -1,7 +1,6 @@
 package client
 
 import (
-	"errors"
 	"github.com/vmihailenco/msgpack"
 )
 
@@ -19,11 +18,7 @@ type Index struct {
 
 func (c *Consumer) Deal(p Params, ret *[]byte) error {
 	var err error
-	if c.checkSafe(p.FunName) {
-		*ret, err = c.Funs[p.FunName](p.Data)
-	} else {
-		err = errors.New("Not Find: " + p.FunName)
-	}
+	*ret, err = c.Funs[p.FunName](p.Data)
 	return err
 }
 
@@ -48,11 +43,12 @@ func (c *Consumer) GetIndex(_ Params, ret *[]byte) error {
 	}
 }
 
-func (c *Consumer) checkSafe(FunName string) bool {
-	for k := range c.Funs {
-		if k == FunName {
-			return true
-		}
-	}
-	return false
-}
+//
+//func (c *Consumer) checkSafe(FunName string) bool {
+//	for k := range c.Funs {
+//		if k == FunName {
+//			return true
+//		}
+//	}
+//	return false
+//}

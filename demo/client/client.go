@@ -16,14 +16,14 @@ func main() {
 	}
 	c := new(client.Consumer)
 	c.Funs = map[string]func(*[]byte) ([]byte, error){
-		"say": func(i *[]byte) ([]byte, error) {
+		"s": func(i *[]byte) ([]byte, error) {
 			s := []byte("world")
 			return s, nil
 		},
 	}
 	b.New("127.0.0.1", 38080, "helloc", p, c)
-	a := []byte("hello")
-	ret, err := b.Call("hello", "say", &a)
+	a := []byte("")
+	ret, err := b.Call("hello", "s", &a)
 	if err != nil {
 		fmt.Println(err)
 	} else {

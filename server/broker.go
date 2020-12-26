@@ -6,7 +6,7 @@ import (
 	"github.com/vmihailenco/msgpack"
 	"github.com/zzinno/zrpc/client"
 	"log"
-	"net/http"
+	"net"
 	"net/rpc"
 	"strconv"
 )
@@ -29,21 +29,33 @@ func (b *Broker) New(addr string, port uint, name string, producers map[string]c
 	b.Producers = producers
 	b.Consumer = consumer
 	// register
-	_ = rpc.Register(consumer)
-	rpc.HandleHTTP()
-
+	r := rpc.NewServer()
+	_ = r.Register(b.Consumer)
+	ipaddr, err := net.ResolveTCPAddr("tcp4", addr+":"+strconv.Itoa(int(port)))
+	if err != nil {
+		log.Fatal(err)
+	}
+	var listen *net.TCPListener
+	listen, err = net.ListenTCP("tcp", ipaddr)
+	if err != nil {
+		log.Fatal(err)
+	}
 	//开启rpc
-	go func() {
-		err := http.ListenAndServe(addr+":"+strconv.Itoa(int(port)), nil)
-		if err != nil {
-			log.Fatal(err)
+	go func(r *rpc.Server) {
+		for {
+			conn, Arri := listen.Accept()
+			if Arri != nil {
+				log.Println(err)
+			}
+			go r.ServeConn(conn)
 		}
-	}()
+	}(r)
 	if producers != nil {
 		b.producersClient = make(map[string]*rpc.Client)
 		b.producersSupport = make(map[string]client.Index)
 		for k, v := range b.Producers {
-			rpcClient, err := rpc.DialHTTP("tcp", v.Addr+":"+strconv.Itoa(int(v.Port)))
+			rpcClient, err := rpc.Dial("tcp", v.Addr+":"+strconv.Itoa(int(v.Port)))
+			//rpcClient, err := rpc.DialHTTP("tcp", v.Addr+":"+strconv.Itoa(int(v.Port)))
 			if err != nil {
 				log.Fatal(err)
 			}
