@@ -24,5 +24,10 @@ func main() {
 	b.New("127.0.0.1", 38080, "helloc", p, c)
 	a := []byte("hello")
 	ret, err := b.Call("hello", "say", &a)
-	fmt.Println(string(*ret), err)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(string(*ret), err)
+	}
+
 }

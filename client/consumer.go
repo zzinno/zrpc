@@ -27,7 +27,7 @@ func (c *Consumer) Deal(p Params, ret *[]byte) error {
 	return err
 }
 
-func (c *Consumer) GetIndex(p Params, ret *[]byte) error {
+func (c *Consumer) GetIndex(_ Params, ret *[]byte) error {
 	if c.index == nil {
 		i := 0
 		for range c.Funs {
