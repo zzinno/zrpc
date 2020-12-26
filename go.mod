@@ -1,4 +1,4 @@
-module github.com/ZZINNO/zrpc
+module github.com/zzinno/zrpc
 
 go 1.15
 

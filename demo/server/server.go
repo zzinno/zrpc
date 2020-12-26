@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ZZINNO/zrpc/client"
-	"github.com/ZZINNO/zrpc/server"
+	"github.com/zzinno/zrpc/client"
+	"github.com/zzinno/zrpc/server"
 )
 
 func main() {
