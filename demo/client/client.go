@@ -21,7 +21,7 @@ func main() {
 			return s, nil
 		},
 	}
-	b.New("127.0.0.1", 38080, "helloc", p, c)
+	b.New("127.0.0.1", 38080, p, c)
 	a := []byte("")
 	ret, err := b.Call("hello", "s", &a)
 	if err != nil {

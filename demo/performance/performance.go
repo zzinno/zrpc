@@ -36,7 +36,7 @@ func sendMessage(du *chan int64) error {
 	return nil
 }
 
-func test(port uint) {
+func test(port int) {
 	testNum := 500000
 	du := make(chan int64, testNum)
 	var wg sync.WaitGroup
@@ -57,7 +57,7 @@ func test(port uint) {
 			return s, nil
 		},
 	}
-	b.New("127.0.0.1", port, "helloc", p, c)
+	b.New("127.0.0.1", port, p, c)
 
 	var max int64
 	var test int64
