@@ -41,37 +41,36 @@
                  ''
 
 ====================================
-Function Index From  hello : [ s]
-request count: 100000
+2020/12/27 12:52:35 2020-12-27 12:52:35.6447072 +0800 CST m=+0.015991001 [INFO] [[Function Index From  hello : [ s]]]
+request count: 500000
 success rate: 100 %
-max cost: 2195 ms
-avg cost: 966 ms
-all cost: 2219 ms
+max cost: 9397 ms
+avg cost: 3718 ms
+all cost: 9937 ms
 ERRNUM: 0
-rps: 45065 request/s
-Function Index From  hello : [ s]
-request count: 100000
+rps: 50316 request/s
+2020/12/27 12:52:45 2020-12-27 12:52:45.6015023 +0800 CST m=+9.972786101 [INFO] [[Function Index From  hello : [ s]]]
+request count: 500000
 success rate: 100 %
-max cost: 2141 ms
-avg cost: 1015 ms
-all cost: 2158 ms
+max cost: 7816 ms
+avg cost: 3999 ms
+all cost: 7965 ms
 ERRNUM: 0
-rps: 46339 request/s
-Function Index From  hello : [ s]
-request count: 100000
+rps: 62774 request/s
+2020/12/27 12:52:53 2020-12-27 12:52:53.5909341 +0800 CST m=+17.962217901 [INFO] [[Function Index From  hello : [ s]]]
+request count: 500000
 success rate: 100 %
-max cost: 1984 ms
-avg cost: 1036 ms
-all cost: 2141 ms
+max cost: 6364 ms
+avg cost: 3268 ms
+all cost: 6683 ms
 ERRNUM: 0
-rps: 46707 request/s
-Function Index From  hello : [ s]
-request count: 100000
+rps: 74816 request/s
+2020/12/27 12:53:00 2020-12-27 12:53:00.2947751 +0800 CST m=+24.666058901 [INFO] [[Function Index From  hello : [ s]]]
+request count: 500000
 success rate: 100 %
-max cost: 2174 ms
-avg cost: 1058 ms
-all cost: 2180 ms
+max cost: 7219 ms
+avg cost: 3974 ms
+all cost: 7791 ms
 ERRNUM: 0
-rps: 45871 request/s
-
+rps: 64176 request/s
 ```
