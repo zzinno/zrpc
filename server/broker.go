@@ -8,6 +8,7 @@ import (
 	"log"
 	"net"
 	"net/rpc"
+	"regexp"
 	"strconv"
 )
 
@@ -27,19 +28,30 @@ const (
 	defaultPort = 5825
 )
 
-// @title    New
-// @description  Create a service to send and receive information
-// @auth      loveward         2020-12-27 12:06
-// @param     addr        string        the
-// @return    返回参数名        参数类型         "解释"
-//addr string, port uint, producers map[string]client.Producer, consumer *client.Consumer
+/*
+！！请直接在demo中查看创建的例子
+@title    Broker.New
+@description  创建Broker
+@auth      loveward         2020-12-27 12:06
+@param     addr             string                       监听地址
+@param     port             int                          端口
+@param     producers        map[string]client.Producer   生产者集合
+@param     consumer         *client.Consumer             消费者
+@param     Logger           logger.Logger                日志
+*/
 func (b *Broker) New(args ...interface{}) {
 	for _, arg := range args {
 		switch arg.(type) {
 		case int:
 			b.port = arg.(int)
+			if b.port > 65535 || b.port < 1 {
+				checkError(errors.New("端口错误：端口范围是1~65535"))
+			}
 		case string:
 			b.addr = arg.(string)
+			if !checkIp(b.addr) {
+				checkError(errors.New("ip地址格式错误：给出的地址格式应该是 eg.. \"1.2.3.4\""))
+			}
 		case map[string]client.Producer:
 			b.Producers = arg.(map[string]client.Producer)
 		case *client.Consumer:
@@ -47,7 +59,7 @@ func (b *Broker) New(args ...interface{}) {
 		case logger.Logger:
 			b.Logger = arg.(logger.Logger)
 		default:
-			log.Fatal(errors.New("参数类型错误，请参demo中代码"))
+			log.Fatal(errors.New("参数类型错误，请参阅demo中代码"))
 		}
 	}
 
@@ -86,6 +98,14 @@ func (b *Broker) New(args ...interface{}) {
 		b.producersClient = make(map[string]*rpc.Client)
 		b.producersSupport = make(map[string]client.Index)
 		for k, v := range b.Producers {
+
+			if v.Port > 65535 || v.Port < 1 {
+				checkError(errors.New("端口错误：端口范围是1~65535"))
+			}
+			if !checkIp(v.Addr) {
+				checkError(errors.New("ip地址格式错误：给出的地址格式应该是 eg.. \"1.2.3.4\""))
+			}
+
 			rpcClient, err := rpc.Dial("tcp", v.Addr+":"+strconv.Itoa(int(v.Port)))
 			//rpcClient, err := rpc.DialHTTP("tcp", v.Addr+":"+strconv.Itoa(int(v.Port)))
 			checkError(err)
@@ -129,5 +149,15 @@ func checkError(err error) {
 func (b *Broker) LogErr(err error) {
 	if err != nil {
 		b.Logger.Error(err)
+	}
+}
+
+func checkIp(addr string) bool {
+	ipReg := `^((0|[1-9]\d?|1\d\d|2[0-4]\d|25[0-5])\.){3}(0|[1-9]\d?|1\d\d|2[0-4]\d|25[0-5])$`
+	match, _ := regexp.MatchString(ipReg, addr)
+	if match {
+		return true
+	} else {
+		return false
 	}
 }
