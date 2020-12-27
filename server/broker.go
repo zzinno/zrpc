@@ -15,7 +15,6 @@ import (
 type Broker struct {
 	addr             string
 	port             int
-	name             string
 	Producers        map[string]client.Producer
 	Consumer         *client.Consumer
 	producersSupport map[string]client.Index
@@ -81,7 +80,7 @@ func (b *Broker) New(args ...interface{}) {
 		checkError(err)
 	}
 
-	ipaddr, err := net.ResolveTCPAddr("tcp4", b.addr+":"+strconv.Itoa(int(b.port)))
+	ipaddr, err := net.ResolveTCPAddr("tcp4", b.addr+":"+strconv.Itoa(b.port))
 	checkError(err)
 	var listen *net.TCPListener
 	listen, err = net.ListenTCP("tcp", ipaddr)
